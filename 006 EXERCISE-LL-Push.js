@@ -164,7 +164,7 @@ class LinkedList {
       temp.next = prev;
       temp = next;
     }
-    return this
+    return this;
   }
 }
 
