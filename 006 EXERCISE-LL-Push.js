@@ -114,15 +114,58 @@ class LinkedList {
   }
 
   set(index, value) {
-    let temp = this.get(index)
+    let temp = this.get(index);
     if (temp) {
-        temp.value = value
-        return true
+      temp.value = value;
+      return true;
     }
-    return false
+    return false;
   }
 
-  insert(index, value) {}
+  insert(index, value) {
+    if (index === 0) return this.unShift(value);
+    if (index === this.length) return this.push(value);
+    if (index < 0 || index > this.length) return false;
+
+    const newNode = new Node(value);
+    const temp = this.get(index - 1);
+
+    newNode.next = temp.next;
+    temp.next = newNode;
+    this.length++;
+    return true;
+  }
+
+  remove(index) {
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+    if (index < 0 || index >= this.length) return false;
+
+    const before = this.get(index - 1);
+    const temp = before.next;
+
+    before.next = temp.next;
+    temp.next = null;
+    this.length--;
+    return temp;
+  }
+
+  // IMPORTANT INTERVIEW QUESTION ON LL
+  reverse() {
+    // reversing the head & tail nodes
+    let temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+    let next = temp.next;
+    let prev = null;
+
+    for (let i = 0; i < this.length; i++) {
+      next = temp.next;
+      temp.next = prev;
+      temp = next;
+    }
+    return this
+  }
 }
 
 function test() {
